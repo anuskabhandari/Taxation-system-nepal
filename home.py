@@ -1,5 +1,4 @@
 #*************** Task-1- Aishwarya *******************
-
 name = input("Enter your name: ")
 salary = int(input("Enter your monthly salary: "))
 
@@ -13,7 +12,6 @@ salary = float(salary)
 print(type(salary))
 
 #*************** Task-3- Anuska *******************
-# Calculate tax using if statement
 if salary > 0:
     tax = salary * 0.10
     print("Tax amount is:", tax)
