@@ -20,7 +20,6 @@ else:
     print("Invalid salary! Tax cannot be calculated.")
 
 #*************** Task-4- Asmita *******************
-
 print("\n-------------------TAXATION Report-------------------")
 print("Employee Name\tEmployee Salary\tTax Amount")
 
