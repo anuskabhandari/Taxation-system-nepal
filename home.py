@@ -1,37 +1,78 @@
+import psycopg2
+from db import get_connection
+
+conn = get_connection()
+
+
 print("----------------Welcome to the Taxation System---------------------")
+##########################  Asmita Task ##########################"
+
+def create_table():
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS employees (
+                    id SERIAL PRIMARY KEY,
+                    name VARCHAR(100) NOT NULL,
+                    salary FLOAT NOT NULL,
+                    allowance FLOAT NOT NULL,
+                    deductions FLOAT NOT NULL,
+                    pan_number VARCHAR(20) UNIQUE NOT NULL
+                );
+                """
+            )
+            print("Employee Table created successfully")
 
 
+create_table()
 
 class EmployeeDetails:
-    def __init__(self):
-        self.set_pan = set()
-        self.employee_records = {}
+    
     def input_employee_details(self):
         while True:
-        ##########################  Anuja Task ##########################"
-            print("Enter employee details:")
-            name = input("Name: ")
-            salary = float(input("Monthly Salary: "))
-            allowance = float(input("Allowances: "))
-            deductions = float(input("Deductions: "))
-            pan_number = input("PAN Number: ")
+            try:
+                with conn:
+                    with conn.cursor() as cur:
 
-            while pan_number in self.set_pan:
-                print("PAN already exists. Enter again.")
-                pan_number = input("PAN Number: ")
-            self.set_pan.add(pan_number)
-                
-        ##########################  Anuska Task ##########################"  
-            self.employee_records[name] = [salary, allowance, deductions, pan_number]
+                        print("Enter employee details:")
+                        name = input("Name: ")
+                        salary = float(input("Monthly Salary: "))
+                        allowance = float(input("Allowances: "))
+                        deductions = float(input("Deductions: "))
+                        pan_number = input("PAN Number: ")
+                        
+                        cur.execute(
+                            """
+                            INSERT INTO employees (name, salary, allowance, deductions, pan_number)
+                            VALUES (%s, %s, %s, %s, %s);
+                            """,
+                            (name, salary, allowance, deductions, pan_number)
+                        )
+                        conn.commit()
+                        print(f"Employee {name} added successfully.")
+                        
+                        
+            except psycopg2.errors.UniqueViolation:
+                print("PAN already exists. Please try entering a different PAN number.")
 
             choice = input("Do you want to add more employee records? (yes/no): ")
             if choice.lower() != 'yes':
                 break
 
 
+#main execution
+emp_obj = EmployeeDetails()
+emp_obj.input_employee_details()
+
+
+
+'''
+-----------------Guys you can continus from this--------
+
 
 class CalculateTax:
-    ##########################  Aiswarya's Task ##########################"
+    ########################## Task ##########################"
     tax_slabs = (
     (0, 50000, 0.01),
     (50000, 100000, 0.10),
@@ -50,7 +91,7 @@ class CalculateTax:
         
         return tax
 
-##########################  Asmita's Task ##########################"  
+##########################   Task ##########################"  
 class TaxReport:
     def display_report(self, employee_records):
         print("\n-------------------TAXATION Report-------------------")
@@ -61,7 +102,7 @@ class TaxReport:
         highest_tax = 0
         highest_taxpayer = ""
         
-    # ------------------- End Anuska Task -------------------
+    # -------------------  Task -------------------
 
         for name, details in employee_records.items():
             salary, allowance, deductions, pan_number = details
@@ -84,7 +125,7 @@ class TaxReport:
                 slab_count["high"] += 1
 
            
-            # ------------------- End Anusk Task -------------------
+            # -------------------  Task -------------------
 
             print(f"{name}\t\t{salary}\t\t{allowance}\t\t{deductions}\t\t{pan_number}\t\t{tax_amount:.2f}\t\t{final_salary:.2f}")
         ## Anuska Task
@@ -93,9 +134,7 @@ class TaxReport:
         print(f"Employees per Tax Slab: {slab_count}")
       
 
-#main execution
-emp_obj = EmployeeDetails()
-emp_obj.input_employee_details()
 
 report = TaxReport()
 report.display_report(emp_obj.employee_records)
+'''
