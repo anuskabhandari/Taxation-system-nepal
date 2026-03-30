@@ -59,11 +59,63 @@ class EmployeeDetails:
             choice = input("Do you want to add more employee records? (yes/no): ")
             if choice.lower() != 'yes':
                 break
+    ####-------Anuska Task-----#####
+    def update_employee(self):
+        print("\n--- Update Employee ---")
+        pan_number = input("Enter PAN number of employee to update: ").strip()
 
+        try:
+            with conn:
+                with conn.cursor() as cur:   
+                    #  Find employee by PAN
+                    cur.execute("SELECT * FROM employees WHERE pan_number = %s", (pan_number,))
+                    record = cur.fetchone()
 
+                    if not record:
+                        print("Employee not found!")
+                        return
+
+                    #  Input new details (leave blank to keep old)
+                    name = input(f"New Name [{record[1]}]: ") or record[1]
+                    salary_input = input(f"New Salary [{record[2]}]: ")
+                    salary = float(salary_input) if salary_input else record[2]
+                    allowance_input = input(f"New Allowance [{record[3]}]: ")
+                    allowance = float(allowance_input) if allowance_input else record[3]
+                    deductions_input = input(f"New Deductions [{record[4]}]: ")
+                    deductions = float(deductions_input) if deductions_input else record[4]
+
+                    #  Update PAN if needed
+                    new_pan = input(f"New PAN [{record[5]}]: ") or record[5]
+
+                    #  Check if new PAN exists in other records
+                    if new_pan != pan_number:
+                        cur.execute("SELECT * FROM employees WHERE pan_number = %s AND id != %s", (new_pan, record[0]))
+                        if cur.fetchone():
+                            print("PAN already exists! Update cancelled.")
+                            return
+
+                    #  Update employee in DB
+                    cur.execute("""
+                        UPDATE employees
+                        SET name=%s, salary=%s, allowance=%s, deductions=%s, pan_number=%s
+                        WHERE id=%s
+                    """, (name, salary, allowance, deductions, new_pan, record[0]))
+                    
+                    conn.commit()
+                    print(f"Employee with PAN {pan_number} updated successfully!")
+
+        except Exception as e:
+            print("Error updating employee:", e)
+   
 #main execution
 emp_obj = EmployeeDetails()
 emp_obj.input_employee_details()
+
+# Call the update function
+emp_obj.update_employee()
+
+
+
 
 
 
