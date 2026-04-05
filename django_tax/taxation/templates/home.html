@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nepal Tax Calculator - Instant Tax Computation</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Django Static CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="{% url 'home' %}" class="logo">
+                <div class="logo-icon">₨</div>
+                <div class="logo-text">
+                    <h1>Nepal Tax Info</h1>
+                    <p>नेपाल कर जानकारी</p>
+                </div>
+            </a>
+            <nav>
+                <a href="#calculators">Calculators</a>
+                <a href="#guides">Guides</a>
+                <a href="#resources">Resources</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Calculate Your Nepal Taxes Instantly</h1>
+            <p>Free, accurate tax computation for individuals and businesses.</p>
+
+            <!-- 🔥 Connected to Django -->
+            <a href="{% url 'add_employee' %}">
+                <button class="cta-button">Start Calculator</button>
+            </a>
+
+            <a href="{% url 'view_report' %}">
+                <button class="cta-button secondary">View Report</button>
+            </a>
+        </div>
+    </section>
+
+    <!-- Quick Access Cards -->
+    <section class="quick-access">
+        <div class="cards-container">
+
+            <div class="card">
+                <div class="card-icon">🧮</div>
+                <h3>Income Tax Calculator</h3>
+                <p>Compute your tax instantly.</p>
+                <a href="{% url 'add_employee' %}" class="card-link">Calculate Now →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Tax Report</h3>
+                <p>View all employee tax details.</p>
+                <a href="{% url 'view_report' %}" class="card-link">View Report →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">✏️</div>
+                <h3>Update Employee</h3>
+                <p>Modify employee details easily.</p>
+                <a href="{% url 'update_employee' %}" class="card-link">Update Now →</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-section-content">
+            <h2>Ready to Calculate Your Taxes?</h2>
+
+            <a href="{% url 'add_employee' %}">
+                <button class="cta-button">Get Started Now</button>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Nepal Tax System</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Django Static JS -->
+    <script src="{% static 'js/home.js' %}"></script>
+
+</body>
+</html>
